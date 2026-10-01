@@ -1,0 +1,13 @@
+{
+  "name": "railkit-service",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "railkit": "^6.0.0"
+  }
+}
