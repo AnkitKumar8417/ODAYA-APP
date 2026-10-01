@@ -1,0 +1,198 @@
+{
+  "app_name": "ODAYA",
+  "personality": "7 Dark-First Utility DARK",
+  "personality_one_liner": "A high-performance, command-center interface for real-time travel tracking, blending OLED-friendly darkness with sharp neon green data accents.",
+  "color": {
+    "surface": "#050505",
+    "onSurface": "#F5F5F5",
+    "surfaceSecondary": "#171717",
+    "onSurfaceSecondary": "#E5E5E5",
+    "surfaceTertiary": "#262626",
+    "onSurfaceTertiary": "#D4D4D4",
+    "surfaceInverse": "#FFFFFF",
+    "onSurfaceInverse": "#000000",
+    "brand": "#00E676",
+    "onBrand": "#000000",
+    "brandPrimary": "#00E676",
+    "onBrandPrimary": "#000000",
+    "brandSecondary": "#00B259",
+    "onBrandSecondary": "#000000",
+    "brandTertiary": "rgba(0, 230, 118, 0.12)",
+    "onBrandTertiary": "#00E676",
+    "success": "#00E676",
+    "onSuccess": "#000000",
+    "warning": "#FFB74D",
+    "onWarning": "#000000",
+    "error": "#EF5350",
+    "onError": "#FFFFFF",
+    "info": "#4FC3F7",
+    "onInfo": "#000000",
+    "border": "#262626",
+    "borderStrong": "#404040",
+    "divider": "#171717",
+    "muted": "#8A8A8A"
+  },
+  "typography": {
+    "displayFontFamily": "Rajdhani",
+    "textFontFamily": "IBM Plex Sans",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Dense, tactical spacing for high data visibility. Avoid excess empty space; prioritize alignment and structural dividers.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "0",
+  "navigation": "stack_only",
+  "icon_set": "Phosphor",
+  "glassmorphism": {
+    "enabled": false,
+    "do's": ["Use solid dark surfaces or brandTertiary tints for elevation.", "Use dividers to separate list items on high-density data screens."],
+    "dont's": ["No blur on heavy data panels.", "No glassmorphism for list items.", "Do not use heavy shadows; rely on border and surface tone."]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Home",
+      "purpose": "Command center dashboard providing immediate access to all 7 core railway tracking features.",
+      "states": {
+        "loading": "Centered brand-colored activity indicator.",
+        "empty": "N/A - Home is static navigation.",
+        "error": "Standard snackbar for general errors."
+      },
+      "layout": "Screen root uses 'surface'. Top 1/3 is a hero banner (using hero_bg image) with a vertical gradient scrim (transparent to surface). Large Rajdhani greeting text. Below the hero, use a multi-column grid (`flexDirection: 'row'`, `flexWrap: 'wrap'`, `justifyContent: 'space-between'`, `gap: md`) for 6 feature tiles (Train Search, PNR, Live Status, Seat Availability, Fare, Route). The tiles use `surfaceSecondary` with `brandTertiary` icon containers. Fixed FAB at bottom right for 'ODAYA Assistant' using `brandPrimary` pill."
+    },
+    {
+      "name": "Train Search",
+      "purpose": "Form to find trains between stations with real-time-like result cards.",
+      "states": {
+        "loading": "Skeleton rows of train cards.",
+        "empty": "Illustration/icon + 'No trains found on this route'.",
+        "error": "Error state + Retry button."
+      },
+      "layout": "Sticky top form with From, To, and Date inputs. Sticky 'Search' CTA. Results scroll below as stacked cards on `surfaceSecondary`. Each card highlights Train Number (displayFontFamily), Name, Departs/Arrives time, and Duration. Divider between list items."
+    },
+    {
+      "name": "PNR Status",
+      "purpose": "Check confirmation status of ticket.",
+      "states": {
+        "loading": "Spinner + 'Fetching PNR...'",
+        "empty": "Empty state prompting to enter 10-digit PNR.",
+        "error": "Error 'Invalid PNR' + Retry."
+      },
+      "layout": "Large 10-digit input field at the top. Below, a robust details card showing Passenger info (Name/Age/Gender), Coach/Seat numbers in heavy typography, and Status (CNF in success color, WL in warning color)."
+    },
+    {
+      "name": "Live Train Status",
+      "purpose": "Real-time tracking of train location and delays.",
+      "states": {
+        "loading": "Pulsing skeleton loader.",
+        "empty": "Prompt to select a train.",
+        "error": "Error fetching live data."
+      },
+      "layout": "High-impact layout. Large active metrics. Current Station in `2xl` font, Next Station below it. A bold indicator block for 'Delay: XX mins' (uses warning or success color). Segmented control for timeline vs live map. Strict, operational aesthetic with dividers."
+    },
+    {
+      "name": "Seat Availability",
+      "purpose": "Check quota and seat availability across travel classes.",
+      "states": {
+        "loading": "Skeleton cards.",
+        "empty": "No seats available prompt.",
+        "error": "Error connecting to database."
+      },
+      "layout": "Date/Train selector sticky at top. Horizontal scroll for Classes (1A, 2A, 3A, SL, CC). Below that, a list of availability for the upcoming days. Tags using `brandTertiary` for AVAILABLE, `surfaceTertiary` for WL."
+    },
+    {
+      "name": "Fare Calculator",
+      "purpose": "Split breakdown of ticket costs.",
+      "states": {
+        "loading": "Spinner.",
+        "empty": "Input parameters to calculate.",
+        "error": "Calculation error."
+      },
+      "layout": "Input params (Source, Dest, Class). Results shown as a structured receipt/invoice layout. Base Fare, GST, Superfast charges aligned right. Total Fare oversized at the bottom."
+    },
+    {
+      "name": "Train Route",
+      "purpose": "Station-by-station timeline.",
+      "states": {
+        "loading": "Skeleton timeline.",
+        "empty": "No route data.",
+        "error": "Route fetch error."
+      },
+      "layout": "Vertical timeline. Left side has a persistent track line with node dots. Passed stations are greyed out (`muted`), current station is `brandPrimary`, upcoming are `surfaceInverse`. Right side holds station name, arrival, and halt time."
+    },
+    {
+      "name": "ODAYA Assistant",
+      "purpose": "Conversational AI agent for travel queries powered by Groq.",
+      "states": {
+        "loading": "Typing indicator bubbles.",
+        "empty": "Welcome message with suggested query chips.",
+        "error": "Failed to send message + Tap to retry."
+      },
+      "layout": "Chat interface. Background uses a very subtle tint or abstract dark bg. User bubbles are `surfaceTertiary`. Bot bubbles have a subtle `brandPrimary` left-border and `brandTertiary` background. Input field fixed at bottom within `KeyboardAvoidingView`."
+    }
+  ],
+  "images": {
+    "hero_bg": {
+      "url": "https://images.unsplash.com/photo-1782936443974-b8e95cb4dd35?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjh8MHwxfHNlYXJjaHwyfHxoaWdoJTIwc3BlZWQlMjB0cmFpbiUyMG5pZ2h0JTIwZGFya3xlbnwwfHx8fDE3OTA4NjM1MzJ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "High speed train passing illuminated buildings at night"
+    },
+    "assistant_bg": {
+      "url": "https://images.unsplash.com/photo-1710678832243-cbfb55a0b806?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGdyZWVuJTIwZ2VvbWV0cmljJTIwdGVjaCUyMGxpbmVzJTIwZGFya3xlbnwwfHx8fDE3OTA4NjM1Mzd8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Abstract neon green geometric lines on a black background"
+    }
+  },
+  "haptics": {
+    "Home": {
+      "tile_press": "impactLight",
+      "fab_press": "impactMedium"
+    },
+    "Train Search": {
+      "search_submit": "impactMedium"
+    },
+    "Live Train Status": {
+      "refresh_status": "notificationSuccess"
+    },
+    "ODAYA Assistant": {
+      "send_message": "impactLight",
+      "receive_message": "impactLight"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the user's request for a bright green and black theme. Implement the Dark-First Utility (7) personality.",
+    "Do NOT use any blue, purple, or indigo colors across the UI. Stick exclusively to the defined black/grey surfaces and neon green brand colors.",
+    "Populate the demo data with Indian Railways contextual information (e.g., Rajdhani Express, Shatabdi, New Delhi, Mumbai Central). Clearly label the screens as containing 'demo/sample data' in the headers or footers.",
+    "On the Home Screen, utilize a gradient scrim (`transparent` to `surface` ~80%) over the hero_bg image to ensure text readability.",
+    "Implement the ODAYA Assistant screen with a standard chat UI, differentiating user bubbles and bot bubbles clearly through color tokens (bot bubble gets the brand tint).",
+    "Use fixed primary CTAs at the bottom of forms (like Train Search and Fare Calculator) utilizing `KeyboardAvoidingView`."
+  ]
+}

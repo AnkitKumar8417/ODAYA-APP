@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: odaya-api
+    runtime: python
+    plan: free
+    rootDir: .
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+      - key: RAILKIT_SERVICE_URL
+        fromService:
+          name: odaya-railkit
+          type: web
+          property: hostport
+      - key: MONGO_URL
+        sync: false
+      - key: DB_NAME
+        value: odaya
+
+  - type: web
+    name: odaya-railkit
+    runtime: node
+    plan: free
+    rootDir: backend/railkit_service
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: RAILKIT_API_KEY
+        sync: false
